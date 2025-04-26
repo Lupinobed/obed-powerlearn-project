@@ -1,0 +1,62 @@
+import pandas as pd
+from sklearn.datasets import load_iris
+
+# Load the Iris dataset
+iris_data = load_iris()
+iris_df = pd.DataFrame(data=iris_data.data, columns=iris_data.feature_names)
+iris_df['species'] = iris_data.target
+
+# Display the first few rows of the dataset
+print(iris_df.head())
+# Check data types and missing values
+print(iris_df.info())
+print(iris_df.isnull().sum())
+# Basic statistics of numerical columns
+print(iris_df.describe())
+# Group by species and compute mean of numerical features
+mean_by_species = iris_df.groupby('species').mean()
+print(mean_by_species)
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Example synthetic time-series data
+time = range(1, 11)
+sales = [5, 6, 7, 8, 6, 7, 10, 12, 11, 13]
+
+plt.figure(figsize=(10, 5))
+plt.plot(time, sales, marker='o')
+plt.title('Sales Trends Over Time')
+plt.xlabel('Time')
+plt.ylabel('Sales')
+plt.xticks(time)
+plt.grid()
+plt.show()
+# Bar chart for average petal length per species
+plt.figure(figsize=(10, 5))
+sns.barplot(x='species', y='petal length (cm)', data=iris_df)
+plt.title('Average Petal Length per Species')
+plt.xlabel('Species')
+plt.ylabel('Average Petal Length (cm)')
+plt.show()
+# Histogram of petal lengths
+plt.figure(figsize=(10, 5))
+sns.histplot(iris_df['petal length (cm)'], bins=10, kde=True)
+plt.title('Distribution of Petal Lengths')
+plt.xlabel('Petal Length (cm)')
+plt.ylabel('Frequency')
+plt.show()# Scatter plot to visualize sepal length vs. petal length
+plt.figure(figsize=(10, 5))
+sns.scatterplot(x='sepal length (cm)', y='petal length (cm)', hue='species', data=iris_df)
+plt.title('Sepal Length vs. Petal Length')
+plt.xlabel('Sepal Length (cm)')
+plt.ylabel('Petal Length (cm)')
+plt.legend(title='Species')
+plt.show()
+try:
+    iris_df = pd.read_csv('path_to_your_file.csv')
+except FileNotFoundError:
+    print("Error: File not found.")
+except pd.errors.EmptyDataError:
+    print("Error: No data.")
+except pd.errors.ParserError:
+    print("Error: Parsing error.")
